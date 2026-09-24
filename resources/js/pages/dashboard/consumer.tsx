@@ -6,16 +6,11 @@ import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import StateSelector from '@/components/dashboard/StateSelector';
 import DashboardFilters from '@/components/dashboard/DashboardFilters';
+import { ConsumerChartsView } from '@/components/dashboard/ConsumerChartsView';
 import { ConsumerComplaint, Props } from '@/types/dashboard';
-import PlaceholderBarChart from '@/components/dashboard/PlaceholderBarChart';
 import { ConsumerDetailModal } from '@/components/dashboard/ConsumerDetailModal';
 import { dashboard } from '@/routes';
 import { consumer } from '@/routes/dashboard';
-
-// ─── Placeholder chart data ───────────────────────────────────────────────────
-const MONTHLY = [14, 22, 18, 31, 27, 19, 35, 28, 41, 33, 25, 38];
-const BY_TYPE  = [45, 30, 25, 18, 12];
-const BY_STATE = [20, 15, 40, 10, 8, 7];
 
 // ─── Rating stars ─────────────────────────────────────────────────────────────
 function Stars({ value }: { value: number | null }) {
@@ -29,7 +24,7 @@ function Stars({ value }: { value: number | null }) {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function ConsumerDashboard({ complaints, states, filters, filterOptions }: Props) {
+export default function ConsumerDashboard({ complaints, states, filters, filterOptions, charts }: Props) {
     const [selected, setSelected] = useState<ConsumerComplaint | null>(null);
     const [view, setView]         = useState<'report' | 'charts'>('report');
     const [seenIds, setSeenIds]   = useState<Set<number>>(new Set());
@@ -195,23 +190,7 @@ export default function ConsumerDashboard({ complaints, states, filters, filterO
 
             {/* ── Charts view ──────────────────────────────────────────── */}
             {view === 'charts' && (
-                <div className="p-6">
-                    <div className="mb-4">
-                        <h3 className="font-semibold">Consumer Analytics</h3>
-                        <p className="text-sm text-muted-foreground">Overview — detailed charts coming soon</p>
-                    </div>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="rounded-xl border bg-card p-5 shadow-sm">
-                            <PlaceholderBarChart title="Monthly Complaints" bars={MONTHLY} />
-                        </div>
-                        <div className="rounded-xl border bg-card p-5 shadow-sm">
-                            <PlaceholderBarChart title="By Complaint Type" bars={BY_TYPE} />
-                        </div>
-                        <div className="rounded-xl border bg-card p-5 shadow-sm">
-                            <PlaceholderBarChart title="By State" bars={BY_STATE} />
-                        </div>
-                    </div>
-                </div>
+                <ConsumerChartsView charts={charts} />
             )}
 
             <ConsumerDetailModal

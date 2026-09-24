@@ -63,6 +63,7 @@ export interface Props {
     states: State[];
     filters: DashboardFilters;
     filterOptions: DashboardFilterOptions;
+    charts: ConsumerCharts;
 }
 
 export interface Merchant {
@@ -99,6 +100,7 @@ export interface MerchantProps {
     states: State[];
     filters: DashboardFilters;
     filterOptions: DashboardFilterOptions;
+    charts: MerchantCharts;
 }
 
 // ─── Dashboard stats ──────────────────────────────────────────────────────────
@@ -141,4 +143,27 @@ export interface DashboardProps {
     wilayaStats: WilayaStat[];
     filters: DashboardFilters;
     filterOptions: DashboardFilterOptions;
+}
+
+// ─── Chart types ──────────────────────────────────────────────────────────────
+
+export interface ChartPoint {
+    name: string;
+    value: number;
+}
+
+export interface ConsumerCharts {
+    monthly: ChartPoint[];
+    byRegion: ChartPoint[];
+    byBatch: ChartPoint[];
+    byBrand: ChartPoint[];
+    avgRatingProduct: ChartPoint[];
+    avgRatingBrand: ChartPoint[];
+}
+
+export interface MerchantCharts {
+    monthly: ChartPoint[];
+    byRegion: ChartPoint[];
+    byBatch: ChartPoint[];
+    byBrand: ChartPoint[];
 }

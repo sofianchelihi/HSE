@@ -7,18 +7,13 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import StateSelector from '@/components/dashboard/StateSelector';
 import DashboardFilters from '@/components/dashboard/DashboardFilters';
 import { MerchantComplaint, MerchantProps } from '@/types/dashboard';
-import PlaceholderBarChart from '@/components/dashboard/PlaceholderBarChart';
+import { MerchantChartsView } from '@/components/dashboard/MerchantChartsView';
 import { MerchantDetailModal } from '@/components/dashboard/MerchantDetailModal';
 import { dashboard } from '@/routes';
 import { merchant } from '@/routes/dashboard';
 
-// ─── Placeholder chart data ───────────────────────────────────────────────────
-const MONTHLY = [9, 16, 12, 24, 20, 14, 28, 22, 33, 26, 18, 30];
-const BY_TYPE  = [38, 24, 20, 15, 9];
-const BY_STATE = [18, 12, 35, 8, 6, 5];
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function MerchantDashboard({ complaints, states, filters, filterOptions }: MerchantProps) {
+export default function MerchantDashboard({ complaints, states, filters, filterOptions, charts }: MerchantProps) {
     const [selected, setSelected] = useState<MerchantComplaint | null>(null);
     const [view, setView]         = useState<'report' | 'charts'>('report');
     const [seenIds, setSeenIds]   = useState<Set<number>>(new Set());
@@ -188,23 +183,7 @@ export default function MerchantDashboard({ complaints, states, filters, filterO
 
             {/* ── Charts view ──────────────────────────────────────────── */}
             {view === 'charts' && (
-                <div className="p-6">
-                    <div className="mb-4">
-                        <h3 className="font-semibold">Merchant Analytics</h3>
-                        <p className="text-sm text-muted-foreground">Overview — detailed charts coming soon</p>
-                    </div>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="rounded-xl border bg-card p-5 shadow-sm">
-                            <PlaceholderBarChart title="Monthly Complaints" bars={MONTHLY} />
-                        </div>
-                        <div className="rounded-xl border bg-card p-5 shadow-sm">
-                            <PlaceholderBarChart title="By Complaint Type" bars={BY_TYPE} />
-                        </div>
-                        <div className="rounded-xl border bg-card p-5 shadow-sm">
-                            <PlaceholderBarChart title="By State" bars={BY_STATE} />
-                        </div>
-                    </div>
-                </div>
+                <MerchantChartsView charts={charts} />
             )}
 
             <MerchantDetailModal
