@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Form, Link } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import PasswordInput from '@/components/home/PasswordInput';
 import { Clock10 } from 'lucide-react';
 
@@ -7,6 +8,7 @@ const INPUT_CLASS =
     'w-full bg-slate-50 border-[1.5px] border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-blue-300 focus:ring-4 focus:ring-blue-100 outline-none transition';
 
 export default function MerchantRegister(props: any) {
+    const { t } = useTranslation();
     const { merchantTypes, wilayas } = props;
 
     const [wilaya, setWilaya] = useState('');
@@ -36,10 +38,10 @@ export default function MerchantRegister(props: any) {
                         </span>
                     </div>
                     <h1 className="text-2xl font-extrabold text-slate-800">
-                        Create a Merchant Account
+                        {t('merchantRegister.title')}
                     </h1>
                     <p className="mt-2 text-sm text-slate-500">
-                        Join us to manage and respond to complaints
+                        {t('merchantRegister.subtitle')}
                     </p>
                 </div>
 
@@ -56,15 +58,13 @@ export default function MerchantRegister(props: any) {
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Full Name{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.fullName')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             name="name"
-                                            placeholder="e.g. Ahmed Benali"
+                                            placeholder={t('merchantRegister.fullNamePlaceholder')}
                                             autoComplete="name"
                                             className={INPUT_CLASS}
                                         />
@@ -77,15 +77,13 @@ export default function MerchantRegister(props: any) {
 
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Email{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.email')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <input
                                             type="email"
                                             name="email"
-                                            placeholder="you@example.com"
+                                            placeholder={t('merchantRegister.emailPlaceholder')}
                                             autoComplete="email"
                                             className={INPUT_CLASS}
                                         />
@@ -101,10 +99,8 @@ export default function MerchantRegister(props: any) {
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Phone Number{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.phone')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <div className="flex">
                                             <span className="inline-flex items-center rounded-l-xl border border-r-0 border-slate-200 bg-slate-100 px-3 text-sm font-semibold text-slate-500">
@@ -127,15 +123,13 @@ export default function MerchantRegister(props: any) {
 
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Market Name{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.marketName')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             name="market_name"
-                                            placeholder="e.g. Superette El Baraka"
+                                            placeholder={t('merchantRegister.marketNamePlaceholder')}
                                             className={INPUT_CLASS}
                                         />
                                         {errors.market_name && (
@@ -149,7 +143,7 @@ export default function MerchantRegister(props: any) {
                                 {/* Merchant Type */}
                                 <div>
                                     <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                        Merchant Type{' '}
+                                        {t('merchantRegister.merchantType')}{' '}
                                         <span className="text-rose-500">*</span>
                                     </label>
                                     <select
@@ -158,17 +152,11 @@ export default function MerchantRegister(props: any) {
                                         defaultValue=""
                                     >
                                         <option value="">
-                                            — Select your business type —
+                                            {t('merchantRegister.merchantTypeSelect')}
                                         </option>
                                         {merchantTypes.map(
-                                            (type: {
-                                                id: number;
-                                                name: string;
-                                            }) => (
-                                                <option
-                                                    key={type.id}
-                                                    value={type.id}
-                                                >
+                                            (type: { id: number; name: string }) => (
+                                                <option key={type.id} value={type.id}>
                                                     {type.name}
                                                 </option>
                                             ),
@@ -185,31 +173,21 @@ export default function MerchantRegister(props: any) {
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Wilaya{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.wilaya')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <select
                                             name="wilaya_id"
                                             className={INPUT_CLASS}
                                             value={wilaya}
-                                            onChange={(e) =>
-                                                handleWilayaChange(e)
-                                            }
+                                            onChange={(e) => handleWilayaChange(e)}
                                         >
                                             <option value="">
-                                                — Select Wilaya —
+                                                {t('merchantRegister.wilayaSelect')}
                                             </option>
                                             {wilayas.map(
-                                                (w: {
-                                                    id: number;
-                                                    name: string;
-                                                }) => (
-                                                    <option
-                                                        key={w.id}
-                                                        value={w.id}
-                                                    >
+                                                (w: { id: number; name: string }) => (
+                                                    <option key={w.id} value={w.id}>
                                                         {w.name}
                                                     </option>
                                                 ),
@@ -224,10 +202,8 @@ export default function MerchantRegister(props: any) {
 
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Commune{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.commune')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <select
                                             name="commune_id"
@@ -235,24 +211,16 @@ export default function MerchantRegister(props: any) {
                                             disabled={!wilaya}
                                             defaultValue=""
                                             value={commune}
-                                            onChange={(e) =>
-                                                setCommune(e.target.value)
-                                            }
+                                            onChange={(e) => setCommune(e.target.value)}
                                         >
                                             <option value="">
                                                 {wilaya
-                                                    ? '— Select Commune —'
-                                                    : 'Select wilaya first'}
+                                                    ? t('merchantRegister.communeSelect')
+                                                    : t('merchantRegister.communeFirst')}
                                             </option>
                                             {communes.map(
-                                                (c: {
-                                                    id: number;
-                                                    name: string;
-                                                }) => (
-                                                    <option
-                                                        key={c.id}
-                                                        value={c.id}
-                                                    >
+                                                (c: { id: number; name: string }) => (
+                                                    <option key={c.id} value={c.id}>
                                                         {c.name}
                                                     </option>
                                                 ),
@@ -270,10 +238,8 @@ export default function MerchantRegister(props: any) {
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Password{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.password')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <PasswordInput
                                             name="password"
@@ -283,10 +249,8 @@ export default function MerchantRegister(props: any) {
 
                                     <div>
                                         <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                            Confirm Password{' '}
-                                            <span className="text-rose-500">
-                                                *
-                                            </span>
+                                            {t('merchantRegister.confirmPassword')}{' '}
+                                            <span className="text-rose-500">*</span>
                                         </label>
                                         <PasswordInput
                                             name="password_confirmation"
@@ -304,12 +268,12 @@ export default function MerchantRegister(props: any) {
                                     {processing ? (
                                         <>
                                             <i className="fas fa-circle-notch fa-spin"></i>
-                                            Creating account...
+                                            {t('merchantRegister.creatingAccount')}
                                         </>
                                     ) : (
                                         <>
                                             <i className="fas fa-user-plus"></i>
-                                            Create Account
+                                            {t('merchantRegister.createAccount')}
                                         </>
                                     )}
                                 </button>
@@ -321,7 +285,7 @@ export default function MerchantRegister(props: any) {
                     <div className="my-6 flex items-center gap-3">
                         <div className="h-px flex-1 bg-slate-200"></div>
                         <span className="text-xs font-medium text-slate-400">
-                            ALREADY HAVE AN ACCOUNT?
+                            {t('merchantRegister.alreadyHaveAccount')}
                         </span>
                         <div className="h-px flex-1 bg-slate-200"></div>
                     </div>
@@ -331,13 +295,13 @@ export default function MerchantRegister(props: any) {
                         className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-slate-200 bg-slate-50 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-white"
                     >
                         <i className="fas fa-sign-in-alt text-slate-500"></i>
-                        Sign in instead
+                        {t('merchantRegister.signIn')}
                     </Link>
                 </div>
 
                 <p className="mt-6 text-center text-xs text-slate-400">
                     <i className="fas fa-lock mr-1"></i>
-                    Your information is secure and encrypted.
+                    {t('merchantRegister.secureInfo')}
                 </p>
             </div>
         </div>

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useForm , Link ,router} from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import GCUModal from '@/Components/GCUModal';
 import {UserType} from "@/types/home";
 
 export default function Home({ gcuContent }: { gcuContent: string }) {
+    const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedType, setSelectedType] = useState<UserType | null>(null);
     const { post, processing } = useForm();
@@ -52,14 +54,10 @@ export default function Home({ gcuContent }: { gcuContent: string }) {
                     <div className="flex flex-col justify-center p-8 md:p-12">
                         <div className="mb-6 text-left">
                             <h1 className="text-4xl leading-tight font-bold text-slate-800 md:text-5xl">
-                                Submit your <br />
-                                <span className="text-blue-600">
-                                    complaint
-                                </span>{' '}
-                                easily
+                                {t('home.title')}
                             </h1>
                             <p className="mt-3 text-lg text-slate-500">
-                                Choose your role and get started in seconds.
+                                {t('home.subtitle')}
                             </p>
                         </div>
 
@@ -75,10 +73,10 @@ export default function Home({ gcuContent }: { gcuContent: string }) {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-slate-800">
-                                            Consumer
+                                            {t('home.consumer')}
                                         </h3>
                                         <p className="text-xs text-slate-500">
-                                            Submit complaints
+                                            {t('home.consumerSub')}
                                         </p>
                                     </div>
                                 </div>
@@ -95,10 +93,10 @@ export default function Home({ gcuContent }: { gcuContent: string }) {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-slate-800">
-                                            Merchant
+                                            {t('home.merchant')}
                                         </h3>
                                         <p className="text-xs text-slate-500">
-                                            Manage & respond
+                                            {t('home.merchantSub')}
                                         </p>
                                     </div>
                                 </div>
@@ -106,7 +104,7 @@ export default function Home({ gcuContent }: { gcuContent: string }) {
                         </div>
 
                         <p className="mt-6 text-xs text-slate-400">
-                            By continuing you agree to our{' '}
+                            {t('home.gcuAgreement')}{' '}
                             <a
                                 href="#"
                                 className="text-blue-600 hover:underline"
@@ -115,7 +113,7 @@ export default function Home({ gcuContent }: { gcuContent: string }) {
                                     setIsModalOpen(true);
                                 }}
                             >
-                                General Conditions of Use
+                                {t('home.gcuLink')}
                             </a>
                             .
                         </p>

@@ -1,0 +1,36 @@
+# Dependencies (reinstalled inside the image)
+node_modules/
+vendor/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Local environment — never bake secrets into the image
+.env
+.env.*
+!.env.docker
+
+# Compiled frontend (rebuilt inside the image)
+public/build/
+public/hot
+
+# Laravel logs and cache
+storage/logs/
+bootstrap/cache/*.php
+
+# Dev / test tooling
+tests/
+phpstan.neon
+phpunit.xml
+pint.json
+.phpunit.result.cache
+.phpunit.cache/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

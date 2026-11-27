@@ -1,10 +1,12 @@
 import { Link, useForm } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import PasswordInput from '@/components/home/PasswordInput';
 
 const INPUT_CLASS =
     'w-full bg-slate-50 border-[1.5px] border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-blue-300 focus:ring-4 focus:ring-blue-100 outline-none transition';
 
 export default function MerchantLogin() {
+    const { t } = useTranslation();
     const form = useForm({
         phone: '',
         password: '',
@@ -30,7 +32,7 @@ export default function MerchantLogin() {
                             className="group inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 hover:shadow-md"
                         >
                             <i className="fas fa-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-0.5" />
-                            Return
+                            {t('merchantLogin.return')}
                         </Link>
                     </div>
                     <div className="mb-4 inline-flex items-center gap-3">
@@ -42,10 +44,10 @@ export default function MerchantLogin() {
                         </span>
                     </div>
                     <h1 className="text-2xl font-extrabold text-slate-800">
-                        Merchant Login
+                        {t('merchantLogin.title')}
                     </h1>
                     <p className="my-4 text-sm text-slate-500">
-                        Sign in to manage your complaints
+                        {t('merchantLogin.subtitle')}
                     </p>
                 </div>
 
@@ -55,7 +57,7 @@ export default function MerchantLogin() {
                         {/* Phone */}
                         <div>
                             <label className="mb-2 block text-xs font-semibold text-slate-600">
-                                Phone Number{' '}
+                                {t('merchantLogin.phone')}{' '}
                                 <span className="text-rose-500">*</span>
                             </label>
                             <div className="flex">
@@ -86,14 +88,13 @@ export default function MerchantLogin() {
                         <div>
                             <div className="mb-2 flex items-center justify-between">
                                 <label className="text-xs font-semibold text-slate-600">
-                                    Password{' '}
+                                    {t('merchantLogin.password')}{' '}
                                     <span className="text-rose-500">*</span>
                                 </label>
                                 <span
-                                    // href={route('merchant.password.request')}
                                     className="cursor-pointer text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline"
                                 >
-                                    Forgot?
+                                    {t('merchantLogin.forgot')}
                                 </span>
                             </div>
                             <PasswordInput
@@ -116,7 +117,7 @@ export default function MerchantLogin() {
                                 className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                             />
                             <span className="text-sm text-slate-600">
-                                Remember me
+                                {t('merchantLogin.rememberMe')}
                             </span>
                         </label>
 
@@ -129,12 +130,12 @@ export default function MerchantLogin() {
                             {form.processing ? (
                                 <>
                                     <i className="fas fa-circle-notch fa-spin"></i>
-                                    Signing in...
+                                    {t('merchantLogin.signingIn')}
                                 </>
                             ) : (
                                 <>
                                     <i className="fas fa-sign-in-alt"></i>
-                                    Sign In
+                                    {t('merchantLogin.signIn')}
                                 </>
                             )}
                         </button>
@@ -144,7 +145,7 @@ export default function MerchantLogin() {
                     <div className="my-4 flex items-center gap-3">
                         <div className="h-px flex-1 bg-slate-200"></div>
                         <span className="text-xs font-medium text-slate-400">
-                            NEW HERE?
+                            {t('merchantLogin.newHere')}
                         </span>
                         <div className="h-px flex-1 bg-slate-200"></div>
                     </div>
@@ -155,7 +156,7 @@ export default function MerchantLogin() {
                         className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-slate-200 bg-slate-50 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-white"
                     >
                         <i className="fas fa-user-plus text-slate-500"></i>
-                        Create a merchant account
+                        {t('merchantLogin.createAccount')}
                     </Link>
                 </div>
 
@@ -163,7 +164,7 @@ export default function MerchantLogin() {
                 <div className="mt-6 space-y-2 text-center">
                     <p className="text-xs text-slate-400">
                         <i className="fas fa-lock mr-1"></i>
-                        Secured with end-to-end encryption
+                        {t('merchantLogin.secured')}
                     </p>
                 </div>
             </div>

@@ -1,0 +1,54 @@
+services:
+
+  # ── Laravel application ────────────────────────────────────
+  # The .env is baked into the image — no env_file or environment needed.
+  # Just pull and run.
+  app:
+    build: .
+    image: yourusername/hse      # ← replace yourusername with your Docker Hub username
+    container_name: complainthub_app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Persist uploaded files (photos / audio) across container restarts
+      - storage_public:/var/www/storage/app/public
+    networks:
+      - complainthub
+
+  # ── MySQL 8 database ──────────────────────────────────────
+  # Credentials are hardcoded to match what is baked in the app image (.env.docker)
+  db:
+    image: mysql:8.0
+    container_name: complainthub_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: hse
+      MYSQL_USER: hse_user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    ports:
+      - "3307:3306"   # 3307 on the host so it doesn't clash with a local MySQL
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - complainthub
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 10s
+
+# ── Named volumes ─────────────────────────────────────────
+volumes:
+  db_data:        # MySQL data — survives container rebuilds
+  storage_public: # User-uploaded files
+
+# ── Network ───────────────────────────────────────────────
+networks:
+  complainthub:
+    driver: bridge

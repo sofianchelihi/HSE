@@ -1,5 +1,6 @@
 import { useForm, Link } from '@inertiajs/react';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import SectionCard from '@/Components/Home/SectionCard';
 import InputField from '@/Components/Home/InputField';
 import BarcodeInput from '@/Components/Home/BarcodeInput';
@@ -16,6 +17,7 @@ export default function consumerComplaint(props: {
     wilayas: Array<{ id: number; name: string; communes: Array<{ id: number; name: string ,wilaya_id: number }> }>;
 }
 ,) {
+    const { t } = useTranslation();
     const voiceFileRef = useRef<File | null>(null);
 
     const { data, setData, post, processing, errors } = useForm<{
@@ -81,7 +83,7 @@ export default function consumerComplaint(props: {
                             className="group inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 hover:shadow-md"
                         >
                             <i className="fas fa-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-0.5" />
-                            Return
+                            {t('consumerComplaint.return')}
                         </Link>
                     </div>
                     <div className="mb-4 inline-flex items-center gap-3">
@@ -93,11 +95,12 @@ export default function consumerComplaint(props: {
                         </span>
                     </div>
                     <h1 className="text-3xl font-extrabold text-slate-800">
-                        Submit a Complaint
+                        {t('consumerComplaint.title')}
                     </h1>
                     <p className="mt-2 text-sm text-slate-500">
-                        Fields marked <span className="text-rose-500">*</span>{' '}
-                        are required.
+                        {t('consumerComplaint.requiredNote').replace('*', '')}
+                        <span className="text-rose-500">*</span>{' '}
+                        {t('consumerComplaint.requiredNote').split('*')[1]}
                     </p>
                 </div>
 
@@ -110,12 +113,12 @@ export default function consumerComplaint(props: {
                     <SectionCard
                         icon="fas fa-box-open"
                         iconBg="bg-blue-50 text-blue-600"
-                        title="Product Information"
-                        subtitle="Identify the product concerned"
+                        title={t('consumerComplaint.productInfo')}
+                        subtitle={t('consumerComplaint.productInfoSub')}
                     >
                         <div className="space-y-4">
                             <InputField
-                                label="Select Product"
+                                label={t('consumerComplaint.selectProduct')}
                                 required
                                 error={errors.product_id}
                             >
@@ -130,7 +133,7 @@ export default function consumerComplaint(props: {
                                     className={INPUT_CLASS}
                                 >
                                     <option value={-1}>
-                                        — Choose a product —
+                                        {t('consumerComplaint.chooseProduct')}
                                     </option>
                                     {props.products.map((product) => (
                                         <option
@@ -145,12 +148,12 @@ export default function consumerComplaint(props: {
 
                             <div className="flex items-center gap-3 text-xs text-slate-400">
                                 <div className="h-px flex-1 bg-slate-200"></div>
-                                <span className="font-medium">OR</span>
+                                <span className="font-medium">{t('consumerComplaint.or')}</span>
                                 <div className="h-px flex-1 bg-slate-200"></div>
                             </div>
 
                             <InputField
-                                label="Enter the last 6 digits of the barcode"
+                                label={t('consumerComplaint.barcodeLabel')}
                                 required
                                 error={errors.product_id}
                             >
@@ -163,7 +166,7 @@ export default function consumerComplaint(props: {
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <InputField
                                     required
-                                    label="Batch Number"
+                                    label={t('consumerComplaint.batchNumber')}
                                     error={errors.batch_number}
                                 >
                                     <input
@@ -175,13 +178,13 @@ export default function consumerComplaint(props: {
                                                 e.target.value,
                                             )
                                         }
-                                        placeholder="e.g. LOT-2024-A15"
+                                        placeholder={t('consumerComplaint.batchPlaceholder')}
                                         className={INPUT_CLASS}
                                     />
                                 </InputField>
                                 <InputField
                                     required
-                                    label="Fabrication Date"
+                                    label={t('consumerComplaint.fabricationDate')}
                                     error={errors.fabrication_date}
                                 >
                                     <input
@@ -206,12 +209,12 @@ export default function consumerComplaint(props: {
                     <SectionCard
                         icon="fas fa-exclamation-circle"
                         iconBg="bg-rose-50 text-rose-500"
-                        title="Complaint Details"
-                        subtitle="Tell us what went wrong"
+                        title={t('consumerComplaint.complaintDetails')}
+                        subtitle={t('consumerComplaint.complaintDetailsSub')}
                     >
                         <div className="space-y-4">
                             <InputField
-                                label="Type of Complaint"
+                                label={t('consumerComplaint.complaintType')}
                                 required
                                 error={errors.complaint_type_id}
                             >
@@ -226,7 +229,7 @@ export default function consumerComplaint(props: {
                                     className={INPUT_CLASS}
                                 >
                                     <option value={-1}>
-                                        — Select the type —
+                                        {t('consumerComplaint.selectType')}
                                     </option>
                                     {props.types.map((type) => (
                                         <option key={type.id} value={type.id}>
@@ -237,7 +240,7 @@ export default function consumerComplaint(props: {
                             </InputField>
 
                             <InputField
-                                label="Comment"
+                                label={t('consumerComplaint.comment')}
                                 required
                                 error={errors.comment}
                             >
@@ -247,13 +250,13 @@ export default function consumerComplaint(props: {
                                     onChange={(e) =>
                                         setData('comment', e.target.value)
                                     }
-                                    placeholder="Describe your complaint in detail..."
+                                    placeholder={t('consumerComplaint.commentPlaceholder')}
                                     className={INPUT_CLASS}
                                 ></textarea>
                             </InputField>
 
                             <InputField
-                                label="Voice Record (optional)"
+                                label={t('consumerComplaint.voiceRecord')}
                                 required={false}
                                 error={errors.voice_note}
                             >
@@ -273,12 +276,12 @@ export default function consumerComplaint(props: {
                     <SectionCard
                         icon="fas fa-map-marker-alt"
                         iconBg="bg-emerald-50 text-emerald-600"
-                        title="Location"
-                        subtitle="Where did the issue occur?"
+                        title={t('consumerComplaint.location')}
+                        subtitle={t('consumerComplaint.locationSub')}
                     >
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <InputField
-                                label="Wilaya"
+                                label={t('consumerComplaint.wilaya')}
                                 required
                                 error={errors.wilaya_id}
                             >
@@ -294,7 +297,7 @@ export default function consumerComplaint(props: {
                                     className={INPUT_CLASS}
                                 >
                                     <option value={-1}>
-                                        — Select Wilaya —
+                                        {t('consumerComplaint.wilayaSelect')}
                                     </option>
                                     {props.wilayas.map((wilaya) => (
                                         <option
@@ -308,7 +311,7 @@ export default function consumerComplaint(props: {
                             </InputField>
 
                             <InputField
-                                label="Commune"
+                                label={t('consumerComplaint.commune')}
                                 required
                                 error={errors.commune_id}
                             >
@@ -323,7 +326,7 @@ export default function consumerComplaint(props: {
                                     className={INPUT_CLASS}
                                 >
                                     <option value={-1}>
-                                        — Select Commune —
+                                        {t('consumerComplaint.communeSelect')}
                                     </option>
                                     {communes.map((commune) => (
                                         <option
@@ -338,7 +341,7 @@ export default function consumerComplaint(props: {
 
                             <div className="sm:col-span-2">
                                 <InputField
-                                    label="Market Name"
+                                    label={t('consumerComplaint.marketName')}
                                     required
                                     error={errors.market_name}
                                 >
@@ -351,7 +354,7 @@ export default function consumerComplaint(props: {
                                                 e.target.value,
                                             )
                                         }
-                                        placeholder="e.g. Marché Central"
+                                        placeholder={t('consumerComplaint.marketPlaceholder')}
                                         className={INPUT_CLASS}
                                     />
                                 </InputField>
@@ -365,13 +368,13 @@ export default function consumerComplaint(props: {
                     <SectionCard
                         icon="fas fa-user-circle"
                         iconBg="bg-indigo-50 text-indigo-600"
-                        title="Your Contact Details"
-                        subtitle="So we can reach you back"
+                        title={t('consumerComplaint.contactDetails')}
+                        subtitle={t('consumerComplaint.contactDetailsSub')}
                     >
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div className="sm:col-span-2">
                                 <InputField
-                                    label="Full Name"
+                                    label={t('consumerComplaint.fullName')}
                                     required
                                     error={errors.consumer_name}
                                 >
@@ -381,14 +384,14 @@ export default function consumerComplaint(props: {
                                         onChange={(e) =>
                                             setData('consumer_name', e.target.value)
                                         }
-                                        placeholder="e.g. Ahmed Benali"
+                                        placeholder={t('consumerComplaint.fullNamePlaceholder')}
                                         className={INPUT_CLASS}
                                     />
                                 </InputField>
                             </div>
 
                             <InputField
-                                label="Phone"
+                                label={t('consumerComplaint.phone')}
                                 required
                                 error={errors.consumer_phone}
                             >
@@ -409,7 +412,7 @@ export default function consumerComplaint(props: {
                             </InputField>
 
                             <InputField
-                                label="Email"
+                                label={t('consumerComplaint.email')}
                                 required
                                 error={errors.consumer_email}
                             >
@@ -419,7 +422,7 @@ export default function consumerComplaint(props: {
                                     onChange={(e) =>
                                         setData('consumer_email', e.target.value)
                                     }
-                                    placeholder="you@example.com"
+                                    placeholder={t('consumerComplaint.emailPlaceholder')}
                                     className={INPUT_CLASS}
                                 />
                             </InputField>
@@ -432,8 +435,8 @@ export default function consumerComplaint(props: {
                     <SectionCard
                         icon="fas fa-star"
                         iconBg="bg-amber-50 text-amber-500"
-                        title="Rate the Product"
-                        subtitle="Your overall experience"
+                        title={t('consumerComplaint.rateProduct')}
+                        subtitle={t('consumerComplaint.rateProductSub')}
                     >
                         <StarRating
                             value={data.rating}
@@ -451,7 +454,7 @@ export default function consumerComplaint(props: {
                             onClick={() => window.history.back()}
                             className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-slate-800"
                         >
-                            <i className="fas fa-times-circle"></i> Cancel
+                            <i className="fas fa-times-circle"></i> {t('consumerComplaint.cancel')}
                         </button>
 
                         <button
@@ -460,14 +463,13 @@ export default function consumerComplaint(props: {
                             className="cursor-pointer inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 px-10 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/40 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <i className="fas fa-paper-plane"></i>
-                            {processing ? 'Submitting...' : 'Submit Complaint'}
+                            {processing ? t('consumerComplaint.submitting') : t('consumerComplaint.submit')}
                         </button>
                     </div>
                 </form>
 
                 <p className="mt-6 text-center text-xs text-slate-400">
-                    <i className="fas fa-lock mr-1"></i> Your data is safe and
-                    will only be used to process your complaint.
+                    <i className="fas fa-lock mr-1"></i> {t('consumerComplaint.dataPrivacy')}
                 </p>
             </div>
         </div>

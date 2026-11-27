@@ -1,10 +1,18 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
+    const { t, i18n } = useTranslation();
+
+    useEffect(() => {
+        document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.lang = i18n.language;
+    }, [i18n.language]);
+
     const resetGCU = () => {
         localStorage.removeItem('gcu_accepted');
-        window.location.reload(); // Refresh to show modal again
+        window.location.reload();
     };
 
     return (
@@ -26,28 +34,16 @@ export default function MainLayout({ children }: { children: ReactNode }) {
                     <div className="flex items-center space-x-6">
                         <LanguageSwitcher />
                         <div className="hidden items-center space-x-4 text-slate-500 sm:flex">
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-blue-600"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-blue-600">
                                 <i className="fab fa-facebook" />
                             </a>
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-sky-500"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-sky-500">
                                 <i className="fab fa-twitter" />
                             </a>
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-pink-600"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-pink-600">
                                 <i className="fab fa-instagram" />
                             </a>
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-blue-700"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-blue-700">
                                 <i className="fab fa-linkedin-in" />
                             </a>
                         </div>
@@ -63,39 +59,25 @@ export default function MainLayout({ children }: { children: ReactNode }) {
             {/* FOOTER */}
             <footer className="mt-4 border-t border-slate-200/60 bg-white/80 py-6 backdrop-blur-sm">
                 <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-6 lg:px-8">
-                    <p className="text-sm text-slate-500">
-                        &copy; 2026 ComplaintHub. All rights reserved.
-                    </p>
+                    <p className="text-sm text-slate-500">{t('layout.copyright')}</p>
                     <div className="flex items-center space-x-5">
                         <button
                             onClick={resetGCU}
                             className="text-sm text-blue-600 hover:underline focus:outline-none"
                         >
-                            <i className="fas fa-undo-alt mr-1" /> Reset GCU
+                            <i className="fas fa-undo-alt mr-1" /> {t('layout.resetGcu')}
                         </button>
                         <div className="flex items-center space-x-4 text-slate-500">
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-blue-600"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-blue-600">
                                 <i className="fab fa-facebook" />
                             </a>
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-sky-500"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-sky-500">
                                 <i className="fab fa-twitter" />
                             </a>
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-pink-600"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-pink-600">
                                 <i className="fab fa-instagram" />
                             </a>
-                            <a
-                                href="#"
-                                className="social-icon text-lg transition hover:text-blue-700"
-                            >
+                            <a href="#" className="social-icon text-lg transition hover:text-blue-700">
                                 <i className="fab fa-linkedin-in" />
                             </a>
                         </div>

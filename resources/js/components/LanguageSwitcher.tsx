@@ -1,49 +1,61 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
+const LANGUAGES = [
+    { code: 'en', label: 'English', flag: '🇬🇧', dir: 'ltr' },
+    { code: 'fr', label: 'Français', flag: '🇫🇷', dir: 'ltr' },
+    { code: 'ar', label: 'العربية', flag: '🇩🇿', dir: 'rtl' },
+] as const;
 
 export default function LanguageSwitcher() {
+    const { i18n } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
-    const [currentLang, setCurrentLang] = useState('EN');
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    const languages = [
-        { code: 'en', label: 'English' },
-        { code: 'fr', label: 'Français' },
-        { code: 'es', label: 'Español' },
-        { code: 'de', label: 'Deutsch' },
-    ];
+    const current = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
 
-    const handleSelect = (code : string, label : string) => {
-        setCurrentLang(label);
+    // Close when clicking anywhere outside the component
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleSelect = (code: string, dir: string) => {
+        i18n.changeLanguage(code);
+        document.documentElement.dir = dir;
+        document.documentElement.lang = code;
         setIsOpen(false);
-        // TODO: change app locale (e.g., Inertia.visit with query param)
-        console.log(`Language changed to ${code}`);
     };
 
     return (
-        <div className="relative" onMouseLeave={() => setIsOpen(false)}>
+        <div className="relative" ref={containerRef}>
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsOpen((prev) => !prev)}
                 className="flex items-center space-x-2 text-sm text-slate-600 hover:text-slate-900 focus:outline-none"
             >
-                <i className="fas fa-globe text-lg" />
-                <span className="hidden sm:inline">{currentLang}</span>
+                <span>{current.flag}</span>
+                <span className="hidden sm:inline font-medium">{current.label}</span>
                 <i className="fas fa-chevron-down text-xs" />
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 z-40 mt-2 w-40 rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
-                    {languages.map(({ code, label }) => (
-                        <a
+                <div className="absolute right-0 z-40 mt-2 w-44 rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
+                    {LANGUAGES.map(({ code, label, flag, dir }) => (
+                        <button
                             key={code}
-                            href="#"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSelect(code, label);
-                            }}
-                            className="flex items-center space-x-3 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                            onClick={() => handleSelect(code, dir)}
+                            className={`flex w-full items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 ${
+                                code === i18n.language ? 'font-semibold text-blue-600' : ''
+                            }`}
                         >
-                            <span>🌐</span> {/* or use flag icons */}
+                            <span>{flag}</span>
                             <span>{label}</span>
-                        </a>
+                        </button>
                     ))}
                 </div>
             )}

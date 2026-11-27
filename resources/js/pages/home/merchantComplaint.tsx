@@ -1,5 +1,6 @@
 import { useForm, Link, router } from '@inertiajs/react';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import SectionCard from '@/Components/Home/SectionCard';
 import InputField from '@/Components/Home/InputField';
 import BarcodeInput from '@/Components/Home/BarcodeInput';
@@ -13,6 +14,7 @@ export default function merchantComplaint(props: {
     products: Array<{ id: number; name: string; brand_id: number; barcode: string }>;
     types: Array<{ id: number; name: string }>;
 }) {
+    const { t } = useTranslation();
     const voiceFileRef = useRef<File | null>(null);
     const photoFilesRef = useRef<File[]>([]);
 
@@ -62,7 +64,7 @@ export default function merchantComplaint(props: {
                             className="group inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 hover:shadow-md"
                         >
                             <i className="fas fa-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-0.5" />
-                            Return
+                            {t('merchantComplaint.return')}
                         </Link>
 
                         <button
@@ -71,7 +73,7 @@ export default function merchantComplaint(props: {
                             className="group inline-flex cursor-pointer items-center gap-2 rounded-xl border border-rose-200 bg-white px-4 py-2 text-sm font-semibold text-rose-500 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-50 hover:shadow-md"
                         >
                             <i className="fas fa-sign-out-alt text-xs transition-transform duration-200 group-hover:translate-x-0.5" />
-                            Logout
+                            {t('merchantComplaint.logout')}
                         </button>
                     </div>
                     <div className="mb-4 inline-flex items-center gap-3">
@@ -83,11 +85,12 @@ export default function merchantComplaint(props: {
                         </span>
                     </div>
                     <h1 className="text-3xl font-extrabold text-slate-800">
-                        Merchant Complaint
+                        {t('merchantComplaint.title')}
                     </h1>
                     <p className="mt-2 text-sm text-slate-500">
-                        Fields marked <span className="text-rose-500">*</span>{' '}
-                        are required.
+                        {t('merchantComplaint.requiredNote').replace('*', '')}
+                        <span className="text-rose-500">*</span>{' '}
+                        {t('merchantComplaint.requiredNote').split('*')[1]}
                     </p>
                 </div>
 
@@ -100,12 +103,12 @@ export default function merchantComplaint(props: {
                     <SectionCard
                         icon="fas fa-box-open"
                         iconBg="bg-blue-50 text-blue-600"
-                        title="Product Information"
-                        subtitle="Identify the product concerned"
+                        title={t('merchantComplaint.productInfo')}
+                        subtitle={t('merchantComplaint.productInfoSub')}
                     >
                         <div className="space-y-4">
                             <InputField
-                                label="Select Product"
+                                label={t('merchantComplaint.selectProduct')}
                                 required
                                 error={errors.product_id}
                             >
@@ -120,7 +123,7 @@ export default function merchantComplaint(props: {
                                     className={INPUT_CLASS}
                                 >
                                     <option value={-1}>
-                                        — Choose a product —
+                                        {t('merchantComplaint.chooseProduct')}
                                     </option>
                                     {props.products.map((product) => (
                                         <option
@@ -135,12 +138,12 @@ export default function merchantComplaint(props: {
 
                             <div className="flex items-center gap-3 text-xs text-slate-400">
                                 <div className="h-px flex-1 bg-slate-200"></div>
-                                <span className="font-medium">OR</span>
+                                <span className="font-medium">{t('merchantComplaint.or')}</span>
                                 <div className="h-px flex-1 bg-slate-200"></div>
                             </div>
 
                             <InputField
-                                label="Enter the last 6 digits of the barcode"
+                                label={t('merchantComplaint.barcodeLabel')}
                                 required
                                 error={errors.product_id}
                             >
@@ -153,7 +156,7 @@ export default function merchantComplaint(props: {
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <InputField
                                     required
-                                    label="Batch Number"
+                                    label={t('merchantComplaint.batchNumber')}
                                     error={errors.batch_number}
                                 >
                                     <input
@@ -165,13 +168,13 @@ export default function merchantComplaint(props: {
                                                 e.target.value,
                                             )
                                         }
-                                        placeholder="e.g. LOT-2024-A15"
+                                        placeholder={t('merchantComplaint.batchPlaceholder')}
                                         className={INPUT_CLASS}
                                     />
                                 </InputField>
                                 <InputField
                                     required
-                                    label="Fabrication Date"
+                                    label={t('merchantComplaint.fabricationDate')}
                                     error={errors.fabrication_date}
                                 >
                                     <input
@@ -196,12 +199,12 @@ export default function merchantComplaint(props: {
                     <SectionCard
                         icon="fas fa-exclamation-circle"
                         iconBg="bg-rose-50 text-rose-500"
-                        title="Complaint Details"
-                        subtitle="Tell us what went wrong"
+                        title={t('merchantComplaint.complaintDetails')}
+                        subtitle={t('merchantComplaint.complaintDetailsSub')}
                     >
                         <div className="space-y-4">
                             <InputField
-                                label="Type of Complaint"
+                                label={t('merchantComplaint.complaintType')}
                                 required
                                 error={errors.complaint_type_id}
                             >
@@ -216,7 +219,7 @@ export default function merchantComplaint(props: {
                                     className={INPUT_CLASS}
                                 >
                                     <option value={-1}>
-                                        — Select the type —
+                                        {t('merchantComplaint.selectType')}
                                     </option>
                                     {props.types.map((type) => (
                                         <option key={type.id} value={type.id}>
@@ -227,7 +230,7 @@ export default function merchantComplaint(props: {
                             </InputField>
 
                             <InputField
-                                label="Comment"
+                                label={t('merchantComplaint.comment')}
                                 required
                                 error={errors.comment}
                             >
@@ -237,13 +240,13 @@ export default function merchantComplaint(props: {
                                     onChange={(e) =>
                                         setData('comment', e.target.value)
                                     }
-                                    placeholder="Describe your complaint in detail..."
+                                    placeholder={t('merchantComplaint.commentPlaceholder')}
                                     className={INPUT_CLASS}
                                 ></textarea>
                             </InputField>
 
                             <InputField
-                                label="Voice Record (optional)"
+                                label={t('merchantComplaint.voiceRecord')}
                                 required={false}
                                 error={errors.voice_note}
                             >
@@ -263,11 +266,11 @@ export default function merchantComplaint(props: {
                     <SectionCard
                         icon="fas fa-camera"
                         iconBg="bg-violet-50 text-violet-600"
-                        title="Photo Evidence"
-                        subtitle="Attach 1 to 3 photos of the issue"
+                        title={t('merchantComplaint.photoEvidence')}
+                        subtitle={t('merchantComplaint.photoEvidenceSub')}
                     >
                         <InputField
-                            label="Photos (optional)"
+                            label={t('merchantComplaint.photos')}
                             required={false}
                             error={errors.photos}
                         >
@@ -287,7 +290,7 @@ export default function merchantComplaint(props: {
                             onClick={() => window.history.back()}
                             className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-slate-800"
                         >
-                            <i className="fas fa-times-circle"></i> Cancel
+                            <i className="fas fa-times-circle"></i> {t('merchantComplaint.cancel')}
                         </button>
 
                         <button
@@ -296,14 +299,13 @@ export default function merchantComplaint(props: {
                             className="cursor-pointer inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 px-10 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/40 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <i className="fas fa-paper-plane"></i>
-                            {processing ? 'Submitting...' : 'Submit Complaint'}
+                            {processing ? t('merchantComplaint.submitting') : t('merchantComplaint.submit')}
                         </button>
                     </div>
                 </form>
 
                 <p className="mt-6 text-center text-xs text-slate-400">
-                    <i className="fas fa-lock mr-1"></i> Your data is safe and
-                    will only be used to process your complaint.
+                    <i className="fas fa-lock mr-1"></i> {t('merchantComplaint.dataPrivacy')}
                 </p>
             </div>
         </div>
